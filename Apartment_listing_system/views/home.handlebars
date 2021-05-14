@@ -1,0 +1,149 @@
+<main id="main">
+	<section id="blog" class="blog">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="sidebar">
+						<h2 class="sidebar-title">Search</h2>
+						<div class="sidebar-item search-form">
+							<div>
+								<label for="search_text"></label>
+								<input type="text" id="search_text" name="search_text" />
+								<label for="text_search_btn"></label>
+								<button type="button" id="text_search_btn"><i class="icofont-search"></i></button>
+							</div>
+						</div>
+
+						<h2 class="sidebar-title">Price</h2>
+						<div class="sidebar-item price-form d-flex align-items-center justify-content-between">
+							<label for="min_price"></label>
+							<input type="number" id="min_price" name="min_price" min="0" step="1" placeholder="$21"/>
+							<div>-</div>
+							<label for="max_price"></label>
+							<input type="number" id="max_price" name="max_price" min="0" step="1" placeholder="$25"/>
+							<label for="price_search_btn"></label>
+							<button type="button" id="price_search_btn"><i class="icofont-simple-right"></i></button>
+						</div>	
+						<h2 class="sidebar-title">Rating</h2>
+						<div class="sidebar-item categories">
+							<ul>
+								<li>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" data-val="0" name="rating_search" id="rating_all" checked value="0">Show All
+										</label>
+									</div>
+								</li>
+								<li>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" data-val="1" name="rating_search" id="rating_one" value="1">1 star and higher
+										</label>
+									</div>
+								</li>
+								<li>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" data-val="2" name="rating_search" id="rating_two" value="2">2 star and higher
+										</label>
+									</div>
+								</li>
+								<li>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" data-val="3" name="rating_search" id="rating_three" value="3">3 star and higher
+										</label>
+									</div>
+								</li>
+								<li>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" data-val="4" name="rating_search" id="rating_four" value="4">4 star and higher
+										</label>
+									</div>
+								</li>
+							</ul>
+
+						</div><!-- End sidebar categories-->
+					</div><!-- End sidebar -->
+				</div>
+				<div class="col-lg-8" id="main_section">
+					<div class="row">
+						{{#each searchapartments}}
+						<div class="col-lg-12 d-flex align-items-stretch" data-aos="fade-up">
+							<article class="entry">
+								<div class="entry-img">
+									<div class="owl-carousel apartment-carousel">
+										{{#if photos }}
+											{{#each photos }}
+											<img src="/uploads/{{ this }}" class="img-fluid" alt="">
+											{{/each}}
+										{{/if}}
+									</div>
+								</div>
+
+								<h2 class="entry-title">
+									<a href="/apartment/detail/{{ listing_id }}">{{ title }}</a>
+								</h2>
+								<div class="entry-meta">
+									<ul>
+										<li class="d-flex align-items-center">
+											<i class="icofont-user"></i> 
+											<a href="/apartment/detail/{{ listing_id }}">{{ user.username}}</a>
+										</li>
+										<li class="d-flex align-items-center">
+											<i class="icofont-dollar"></i> 
+											<span >{{ price }}</span>
+										</li>
+										<li class="d-flex align-items-center">
+											<i class="icofont-globe"></i> 
+											<a href="/apartment/detail/{{ listing_id }}">{{ address }}</a></li>
+									</ul>
+								</div>
+								{{#if rating }}
+								<div class="rating-wrapper" style="margin-bottom: 10px; margin-left: 0; padding: 0; ">
+									{{#for 5 rating }}	
+										{{ this }}
+									{{/for}}
+								</div>
+								{{/if}}
+								<div class="entry-content">
+									<p>{{ description }}</p>
+									<div class="read-more">
+										<a href="/apartment/detail/{{ listing_id }}">Read Detail</a>
+									</div>
+								</div>
+							</article>
+						</div>
+						{{/each}}
+					</div>
+
+					<input type="hidden" id="current_page" value='{{ current_page }}' />
+					<input type="hidden" id="total_count" value='{{ total_count }}' />
+
+					{{#if total_count }}
+					<div class="blog-pagination" data-aos="fade-up">
+						<ul class="justify-content-center">
+							{{#ifCondEqual current_page 1 }}
+							<li class="left_arrow disabled"><i class="icofont-rounded-left"></i></li>
+							{{else}}
+							<li class="left_arrow"><a href="javascript:void(0);"><i class="icofont-rounded-left"></i></a></li>
+							{{/ifCondEqual}}
+
+							{{#forRating total_count current_page }}
+								{{ this }}
+							{{/forRating}}
+							
+							{{#ifCondBigger total_count current_page }}
+							<li class="right_arrow"><a href="javascript:void(0);"><i class="icofont-rounded-right"></i></a></li>
+							{{else}}
+							<li class="right_arrow disabled"><i class="icofont-rounded-right"></i></li>
+							{{/ifCondBigger}}
+						</ul>
+					</div>
+					{{/if}}
+				</div>
+			</div>
+		</div>
+	</section>
+</main>

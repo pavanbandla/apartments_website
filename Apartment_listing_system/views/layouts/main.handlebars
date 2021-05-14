@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Apartment Listing System</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <link href="/img/favicon.png" rel="icon">
+    <link href="/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link href="/vendor/icofont/icofont.min.css" rel="stylesheet">
+    <link href="/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    {{#if authenticated}}
+    <header id="header">
+        <div class="container d-flex align-items-center">
+            <h1 class="logo"><a href="#">Apartment Listing System</a></h1>
+            {{#ifCondEqual auth.account_type 2}}
+            <nav class="nav-menu d-none d-lg-block">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/apartment">Apartments</a></li>
+                </ul>
+            </nav>
+            {{else}}
+            <nav class="nav-menu d-none d-lg-block">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                </ul>
+            </nav>
+            {{/ifCondEqual}}
+
+            <div class="d-flex align-items-center justify-content-between  ml-auto">
+                <a href="/signout" class="get-started-btn mr-3">
+                    Sign Out</a>
+                <a href="/profile" aria-label="My ARIA label">
+                    {{#if auth.profile_picture}}
+                        <img src="/avatar/{{auth.profile_picture}}" class="float-left" style="width: 50px; height: 50px; border-radius: 50%;" alt="">
+                    {{else}}
+                        <img src="/img/default.jpg" class="float-left" style="width: 50px; height: 50px; border-radius: 50%;" alt="">
+                    {{/if}}
+                </a>
+            </div>
+        </div>
+    </header>
+    {{/if}}
+
+    {{{body}}}
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="/vendor/owl.carousel/owl.carousel.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    
+    <script src="/js/validate.js"></script>
+    <script src="/js/main.js"></script>
+
+</body>
+
+</html>

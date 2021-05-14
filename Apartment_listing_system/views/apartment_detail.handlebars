@@ -1,0 +1,166 @@
+<main id="main">
+	<section id="blog" class="blog">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-12 entries">
+					<article class="entry entry-single">
+						<div class="entry-img">
+							<div class="owl-carousel apartment-carousel">
+								{{#if apartment.photos }}
+								{{#each apartment.photos }}
+								<img src="/uploads/{{ this }}" class="img-fluid" alt="">
+								{{/each}}
+								{{/if}}
+							</div>
+						</div>
+						<h2 class="entry-title">
+							<a href="#">{{ apartment.title}}</a>
+						</h2>
+						<div class="entry-meta">
+							<ul>
+								<li class="d-flex align-items-center">
+									<i class="icofont-user"></i>
+									<a href="#">{{ apartment.user.username }}</a>
+								</li>
+								<li class="d-flex align-items-center">
+									<i class="icofont-dollar"></i>
+									<span >{{ apartment.price }}</span>
+								</li>
+								<li class="d-flex align-items-center">
+									<i class="icofont-globe"></i>
+									<a href="#">{{ apartment.address}}</a>
+								</li>
+								<li class="d-flex align-items-center">
+									<i class="icofont-star"></i>
+									<a href="#">{{ apartment.reviews.length }} Reviews</a>
+								</li>
+							</ul>
+						</div>
+						<div class="entry-content">
+							<p>{{ apartment.description }}</p>
+						</div>
+					</article>
+
+					{{!-- <div class="blog-author clearfix">
+						<img src="/img/blog-author.jpg" class="rounded-circle float-left" alt="">
+						<h4>Jane Smith</h4>
+						<div class="social-links">
+							<a href="https://twitters.com/#"><i class="icofont-twitter"></i></a>
+							<a href="https://facebook.com/#"><i class="icofont-facebook"></i></a>
+							<a href="https://instagram.com/#"><i class="icofont-instagram"></i></a>
+						</div>
+						<p>
+							Itaque quidem optio quia voluptatibus dolorem dolor. Modi eum sed possimus accusantium. Quas
+							repellat voluptatem officia numquam sint aspernatur voluptas. Esse et accusantium ut unde
+							voluptas.
+						</p>
+					</div> --}}
+					<input type="hidden" id="latitude" value="{{ apartment.latitude }}" />
+					<input type="hidden" id="longitude" value="{{ apartment.longitude }}" />
+					<div id="apartment-map" style="border: 1px solid #eee; margin-bottom: 20px; width:100%; height: 300px;"></div>
+
+					<div class="blog-comments">
+						{{#unless apartment.reviews }}
+						<h3 class="comments-count">No Reviews</h3>
+						{{else}}
+						<h3 class="comments-count">{{ apartment.reviews.length }} Reviews</h3>
+						{{#each apartment.reviews}}
+						<div  class="comment clearfix">
+							<img src="/img/default.jpg" class="comment-img  float-left" alt="">
+							<h4>
+								<a href="#">{{ this.username}}</a>
+								<a href="#" class="reply" onclick="reply_comment('{{ this.review_id }}')">
+									<i class="icofont-reply"></i>Reply
+								</a>
+							</h4>
+							<div class="rating-wrapper">
+								{{#for 5 this.rating }}	
+									{{ this }}
+								{{/for}}
+							</div>
+							<p>
+								{{ this.review}}
+							</p>
+							{{#if this.comment}}
+								{{#each this.comment }}
+									<div class="comment comment-reply clearfix">
+										{{!-- <img src="/img/default.jpg" class="comment-img  float-left" alt=""> --}}
+										<h5><a href="">{{ this.username }}</a></h5>
+										<p>{{ this.comment }}</p>
+									</div>
+								{{/each}}
+							{{/if}}
+						</div>
+						{{/each}}
+						{{/unless}}
+						
+
+						<div class="reply-form contact">
+							<h3 class="mb-4">Leave a Review</h3>
+							<form action="/apartment/review" method="post" role="form" class="submit-form"
+								id="review_form">
+								<input type="hidden" id="listing_id" name="listing_id"
+									value="{{ apartment.listing_id }}">
+								<div class="form-group">
+									<label for="review_text"></label>
+									<input name="review_text" id="review_text" type="text" class="form-control"
+										placeholder="Review*">
+									<div class="validate"></div>
+								</div>
+								<div class="form-group">
+									<label for="review_score"></label>
+									<input name="review_score" id="review_score" type="number" min="0" max="5" step="1" class="form-control" placeholder="Score*">
+									<div class="validate"></div>
+								</div>
+								<div class="mb-3">
+									<div class="loading">Loading</div>
+									<div class="error-message"></div>
+									<div class="sent-message">Your message has been sent. Thank you!</div>
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary">Post Review</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+<div class="modal" id="commentModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="comment">
+				<form action="/apartment/comment" method="post" role="form" class="submit-form" id="comment_form">
+					<div class="modal-header">
+						<h3 class="modal-title">Reply Comment</h3>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<input type="hidden" id="review_id" name="review_id" value="">
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="form-group">
+									<label for="comment">Comment</label>
+									<textarea name="comment" id="comment" rows="5" class="form-control" placeholder="Comment" data-rule="required" data-msg="Please enter comment"></textarea>
+									<div class="validate"></div>
+								</div>
+								<div class="mb-3">
+									<div class="loading">Loading</div>
+									<div class="error-message"></div>
+									<div class="sent-message">Your message has been sent. Thank you!</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit">Reply</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1jKOFLhfQoZD3xJISSPnSW9-4SyYPpjY"></script>
